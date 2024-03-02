@@ -2,7 +2,7 @@
 
 ## Via CLI
 
-Run `wiggle-bme680` to gather sensor data from bme680 sensor.
+Run `wiggle-bme680` to gather sensor data such as temperature, gas, pressure and humidity from bme680 sensor.
 
 ```
 wiggle-bme680
