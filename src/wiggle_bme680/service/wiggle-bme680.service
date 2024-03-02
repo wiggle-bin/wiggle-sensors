@@ -1,0 +1,9 @@
+[Unit]
+Description=WiggleBME680 service
+
+[Service]
+WorkingDirectory=%h
+ExecStart=%h/Development/wiggle-bme680/.venv/bin/wiggle-bme680
+
+[Install]
+WantedBy=default.target
