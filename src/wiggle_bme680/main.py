@@ -10,6 +10,11 @@ BASE_FOLDER = Path.home() / 'WiggleBin'
 DATA_FOLDER = BASE_FOLDER / 'sensor-data'
 DATA_FILE = DATA_FOLDER / 'bme680.csv'
 
+def create_directory():
+    os.makedirs(DATA_FOLDER, exist_ok=True)
+
+create_directory()
+
 def main():
     i2c = board.I2C()
     bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c, debug=False)
