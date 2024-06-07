@@ -10,10 +10,10 @@ https://raspberrytips.nl/ds18b20-raspberry-pi/
 
 ## Via CLI
 
-Run `wiggle-sensors` to gather sensor data such as temperature, gas, pressure and humidity from bme680 and DS18B20 sensor.
+Run `wiggle-sensors -h` to see options for viewing sensor data such as temperature, gas, pressure and humidity from bme680 and DS18B20 sensor.
 
 ```
-wiggle-sensors
+wiggle-sensors -h
 ```
 
 ## Installation for development
