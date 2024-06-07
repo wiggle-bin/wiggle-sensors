@@ -3,12 +3,12 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "wiggle_bme680"
+name = "wiggle_sensors"
 version = "0.0.1"
 authors = [
   { name="Studio Rabota" },
 ]
-description = "WiggleBME680 - Track WiggleBin's temperature, gas, pressure and humidity"
+description = "WiggleSensors - Track sensor data like temperature, gas, pressure and humidity"
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
@@ -16,12 +16,14 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-  'adafruit-circuitpython-bme680'
+  'adafruit-circuitpython-bme680',
+  'adafruit-circuitpython-adxl34x'
+  'RPi.GPIO',
 ]
 
 [project.scripts]
-wiggle-bme680 = "wiggle_bme680.main:main"
-wiggle-bme680-install = "wiggle_bme680.install:install"
+wiggle-bme680 = "wiggle_sensors.main:main"
+wiggle-bme680-install = "wiggle_sensors.install:install"
 
 [project.urls]
 "Homepage" = "https://github.com/wiggle-bin/wiggle-bme680.git"

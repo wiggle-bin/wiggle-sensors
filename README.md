@@ -1,52 +1,26 @@
-# WiggleBME680
+# WiggleSensors
+
+## Preparing Raspberry Pi
+
+### For soil temperature - ds18b20
+
+You will need to enable the Raspberry PI to gather ds18b20 data
+
+https://raspberrytips.nl/ds18b20-raspberry-pi/
 
 ## Via CLI
 
-Run `wiggle-bme680` to gather sensor data such as temperature, gas, pressure and humidity from bme680 sensor.
+Run `wiggle-sensors` to gather sensor data such as temperature, gas, pressure and humidity from bme680 and DS18B20 sensor.
 
 ```
-wiggle-bme680
-```
-
-## Install WiggleBME680 service
-
-In the terminal run `wiggle-bme680-install`. This will install and start a service which runs `wiggle-bme680` on boot.
-
-```
-wiggle-bme680-install
-```
-
-
-You can check the status with:
-
-```
-systemctl --user status wiggle-bme680.service
-```
-
-To stop the service run:
-
-```
-systemctl --user stop wiggle-bme680.service
-```
-
-To start the service run:
-
-```
-systemctl --user start wiggle-bme680.service
+wiggle-sensors
 ```
 
 ## Installation for development
 
-Updating packages on Raspberry Pi
-```
-pip install --upgrade pip setuptools wheel
-python -m pip install --upgrade pip
-apt-get install libjpeg-dev zlib1g-dev
-```
-
 Installing package
 ```
-pip3 install -e .
+pip3 install .
 ```
 
 For installation without dev dependencies
