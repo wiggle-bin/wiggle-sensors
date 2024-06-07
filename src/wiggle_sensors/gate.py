@@ -1,5 +1,5 @@
 import time
-import RPi.GPIO as GPIO
+from gpiozero import Button
 import csv
 from datetime import datetime
 from pathlib import Path
@@ -17,12 +17,11 @@ def create_directory():
 create_directory()
 
 def main():
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(SENSOR_PIN, GPIO.IN)
+    sensor = Button(SENSOR_PIN)
 
     try:
         while True:
-            reading = GPIO.input(SENSOR_PIN)
+            reading = not sensor.is_pressed
             now = datetime.now().isoformat()
 
             sensor_data = [
@@ -52,7 +51,7 @@ def main():
 
             time.sleep(0.5)
     except KeyboardInterrupt:
-        GPIO.cleanup()  # clean up GPIO on CTRL+C exit
+        print("Exiting...")
 
 
 if __name__ == "__main__":

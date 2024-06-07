@@ -17,8 +17,8 @@ classifiers = [
 ]
 dependencies = [
   'adafruit-circuitpython-bme680',
-  'adafruit-circuitpython-adxl34x'
-  'RPi.GPIO',
+  'adafruit-circuitpython-adxl34x',
+  'gpiozero',
 ]
 
 [project.scripts]
