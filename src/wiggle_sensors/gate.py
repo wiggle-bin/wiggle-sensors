@@ -1,53 +1,19 @@
 import time
 from gpiozero import Button
-import csv
-from datetime import datetime
-from pathlib import Path
-import os
-
-BASE_FOLDER = Path.home() / "WiggleBin"
-DATA_FOLDER = BASE_FOLDER / "sensor-data"
-DATA_FILE = DATA_FOLDER / "wiggle-gate.csv"
+from .write import write_to_csv
 
 SENSOR_PIN = 17
 
-def create_directory():
-    os.makedirs(DATA_FOLDER, exist_ok=True)
-
-create_directory()
-
-def main():
+def listen_and_write_gate():
     sensor = Button(SENSOR_PIN)
 
     try:
         while True:
             reading = not sensor.is_pressed
-            now = datetime.now().isoformat()
-
-            sensor_data = [
-                {
-                    "time": datetime.now().isoformat(),
-                    "status": reading,
-                }
-            ]
+            sensor_data = {"status": reading}
 
             if reading:
-                print(f"Wiggle detected! {now}")
-
-                with open(DATA_FILE, "a", newline="") as csvfile:
-                    # Specify the field names
-                    fieldnames = ["time", "status"]
-
-                    # Create a CSV writer object
-                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-                    # Write the header
-                    if os.stat(DATA_FILE).st_size == 0:
-                        writer.writeheader()
-
-                    # Write the sensor data
-                    for data in sensor_data:
-                        writer.writerow(data)
+                write_to_csv(sensor_data, 'wiggle-gate')
 
             time.sleep(0.5)
     except KeyboardInterrupt:
@@ -55,4 +21,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    listen_and_write_gate()

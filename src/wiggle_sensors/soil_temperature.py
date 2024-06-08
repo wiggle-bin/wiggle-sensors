@@ -1,19 +1,7 @@
-import os
 import glob
-from datetime import datetime
-import csv
-from pathlib import Path
+from .write import write_to_csv
 
-BASE_FOLDER = Path.home() / "WiggleBin"
-DATA_FOLDER = BASE_FOLDER / "sensor-data"
-DATA_FILE = DATA_FOLDER / "soil-temperature.csv"
-
-def create_directory():
-    os.makedirs(DATA_FOLDER, exist_ok=True)
-
-create_directory()
-
-def write_DS18B20(decimals=1):
+def read_DS18B20(decimals=1):
     """Reads the temperature from a 1-wire device"""
 
     device = glob.glob("/sys/bus/w1/devices/" + "28*")[0] + "/w1_slave"
@@ -27,23 +15,13 @@ def write_DS18B20(decimals=1):
 
     print("Soil temperature: %0.1f C" % (temp))
 
-    sensor_data = [{"time": datetime.now().isoformat(), "temperature": temp}]
+    return temp
 
-    with open(DATA_FILE, "a", newline="") as csvfile:
-        # Specify the field names
-        fieldnames = ["time", "temperature"]
+def write_DS18B20(decimals=1):
+    """Write the temperature from a 1-wire device"""
 
-        # Create a CSV writer object
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-        # Write the header
-        if os.stat(DATA_FILE).st_size == 0:
-            writer.writeheader()
-
-        # Write the sensor data
-        for data in sensor_data:
-            writer.writerow(data)
-
+    temp = read_DS18B20(decimals)
+    write_to_csv({"temperature": temp}, "soil-temperature")
 
 if __name__ == "__main__":
-    write_DS18B20()
+    read_DS18B20()

@@ -1,21 +1,9 @@
 import time
 import board
 import adafruit_bme680
-import csv
-from datetime import datetime
-from pathlib import Path
-import os
+from .write import write_to_csv
 
-BASE_FOLDER = Path.home() / 'WiggleBin'
-DATA_FOLDER = BASE_FOLDER / 'sensor-data'
-DATA_FILE = DATA_FOLDER / 'bme680.csv'
-
-def create_directory():
-    os.makedirs(DATA_FOLDER, exist_ok=True)
-
-create_directory()
-
-def write_bme680():
+def read_bme680():
     i2c = board.I2C()
     bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c, debug=False)
 
@@ -43,30 +31,16 @@ def write_bme680():
     print("Pressure: %0.3f hPa" % bme680.pressure)
     print("Altitude = %0.2f meters" % bme680.altitude)
 
-    sensor_data = [
-        {
-            "time": datetime.now().isoformat(), 
-            "temperature": bme680.temperature + temperature_offset, 
-            "humidity": bme680.relative_humidity,
-            "pressure": bme680.pressure,
-            "altitude": bme680.altitude,
-        }
-    ]
+    return {
+        "temperature": bme680.temperature + temperature_offset, 
+        "humidity": bme680.relative_humidity,
+        "pressure": bme680.pressure,
+        "altitude": bme680.altitude,
+    }
 
-    with open(DATA_FILE, 'a', newline='') as csvfile:
-        # Specify the field names
-        fieldnames = ["time", "temperature", "humidity", "pressure", "altitude"]
-
-        # Create a CSV writer object
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-        # Write the header
-        if os.stat(DATA_FILE).st_size == 0:
-            writer.writeheader()
-
-        # Write the sensor data
-        for data in sensor_data:
-            writer.writerow(data)
+def write_bme680():
+    sensor_data = read_bme680()
+    write_to_csv(sensor_data, "bme680")
 
 if __name__ == "__main__":
-    write_bme680()
+    read_bme680()
