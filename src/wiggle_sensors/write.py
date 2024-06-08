@@ -9,7 +9,7 @@ DATA_FOLDER = BASE_FOLDER / "sensor-data"
 def create_directory():
     os.makedirs(DATA_FOLDER, exist_ok=True)
 
-def write_to_csv(sensor_data, filename):
+def write_to_csv(sensor_data, filename, fieldnames):
     """Write data to a CSV file"""
     sensor_data["time"] = datetime.now().isoformat()
 
@@ -18,9 +18,6 @@ def write_to_csv(sensor_data, filename):
     create_directory()
 
     with open(DATA_FILE, "a", newline="") as csvfile:
-        # Specify the field names
-        fieldnames = list(sensor_data.keys())
-
         # Create a CSV writer object
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 

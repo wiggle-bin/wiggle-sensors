@@ -1,7 +1,8 @@
 import time
 import board
 import adafruit_bme680
-from .write import write_to_csv
+from datetime import datetime
+from wiggle_sensors.write import write_to_csv
 
 def read_bme680():
     i2c = board.I2C()
@@ -36,6 +37,7 @@ def read_bme680():
     print("Altitude = %0.2f meters" % bme680.altitude)
 
     return {
+        "time": datetime.now().isoformat(),
         "temperature": bme680.temperature + temperature_offset, 
         "humidity": bme680.relative_humidity,
         "pressure": bme680.pressure,
@@ -44,7 +46,8 @@ def read_bme680():
 
 def write_bme680():
     sensor_data = read_bme680()
-    write_to_csv(sensor_data, "bme680")
+    fieldnames = ["time", "temperature", "humidity", "pressure", "altitude"]
+    write_to_csv(sensor_data, "bme680", fieldnames)
 
 if __name__ == "__main__":
-    read_bme680()
+    write_bme680()

@@ -1,5 +1,6 @@
 import time
 from gpiozero import Button
+from datetime import datetime
 from .write import write_to_csv
 
 SENSOR_PIN = 17
@@ -10,10 +11,14 @@ def listen_and_write_gate():
     try:
         while True:
             reading = not sensor.is_pressed
-            sensor_data = {"status": reading}
+            sensor_data = {
+                "time": datetime.now().isoformat(),
+                "status": reading
+            }
+            fieldnames = ["time", "status"]
 
             if reading:
-                write_to_csv(sensor_data, 'wiggle-gate')
+                write_to_csv(sensor_data, 'wiggle-gate', fieldnames)
 
             time.sleep(0.5)
     except KeyboardInterrupt:

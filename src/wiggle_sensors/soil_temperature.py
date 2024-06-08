@@ -1,5 +1,6 @@
 import glob
-from .write import write_to_csv
+from datetime import datetime
+from wiggle_sensors.write import write_to_csv
 
 def read_DS18B20(decimals=1):
     """Reads the temperature from a 1-wire device"""
@@ -21,7 +22,12 @@ def write_DS18B20(decimals=1):
     """Write the temperature from a 1-wire device"""
 
     temp = read_DS18B20(decimals)
-    write_to_csv({"temperature": temp}, "soil-temperature")
+    sensor_data = {
+        "time": datetime.now().isoformat(),
+        "temperature": temp
+    }
+    field_names = ["time", "temperature"]
+    write_to_csv(sensor_data, "soil-temperature", field_names)
 
 if __name__ == "__main__":
     read_DS18B20()
