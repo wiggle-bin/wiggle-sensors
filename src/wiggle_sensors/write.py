@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 import csv
 from pathlib import Path
 
@@ -11,8 +10,6 @@ def create_directory():
 
 def write_to_csv(sensor_data, filename, fieldnames):
     """Write data to a CSV file"""
-    sensor_data["time"] = datetime.now().isoformat()
-
     DATA_FILE = DATA_FOLDER / f"{filename}.csv"
 
     create_directory()
