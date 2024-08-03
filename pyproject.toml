@@ -18,12 +18,12 @@ classifiers = [
 dependencies = [
   'adafruit-circuitpython-bme680',
   'adafruit-circuitpython-adxl34x',
+  'adafruit-circuitpython-ads1x15',
   'gpiozero',
 ]
 
 [project.scripts]
-wiggle-bme680 = "wiggle_sensors.main:main"
-wiggle-bme680-install = "wiggle_sensors.install:install"
+wiggle-sensors = "wiggle_sensors.main:main"
 
 [project.urls]
-"Homepage" = "https://github.com/wiggle-bin/wiggle-bme680.git"
+"Homepage" = "https://github.com/wiggle-bin/wiggle-sensors.git"
