@@ -1,3 +1,4 @@
+import json
 import os
 import csv
 from pathlib import Path
@@ -24,3 +25,24 @@ def write_to_csv(sensor_data, filename, fieldnames):
 
         # Write the sensor data
         writer.writerow(sensor_data)
+
+def write_to_json(sensor_data, filename):
+    """Write data to a JSON file"""
+    DATA_FILE = DATA_FOLDER / f"{filename}.json"
+
+    create_directory()
+
+    # Append to the existing JSON file or create a new one
+    if DATA_FILE.exists():
+        with open(DATA_FILE, "r") as jsonfile:
+            try:
+                data = json.load(jsonfile)
+            except json.JSONDecodeError:
+                data = []
+    else:
+        data = []
+
+    data.append(sensor_data)
+
+    with open(DATA_FILE, "w") as jsonfile:
+        json.dump(data, jsonfile, indent=4)
