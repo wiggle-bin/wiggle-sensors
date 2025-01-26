@@ -31,7 +31,7 @@ def read_DS18B20(sensor_path, decimals=1):
 def write_DS18B20(decimals=1):
     """Write the temperature from multiple 1-wire devices"""
 
-    sensors_data = []
+    sensors_data = {}
 
     devices = glob.glob("/sys/bus/w1/devices/28*")
     if not devices:
@@ -53,7 +53,7 @@ def write_DS18B20(decimals=1):
             }
             field_names = ["time", "id", "temperature", "name"]
             write_to_csv(sensor_data, "temperature", field_names)
-            sensors_data.append(sensor_data)
+            sensors_data[sensor_name] = temp
 
             print(f"Sensor {sensor_id} {sensor_name} temperature: {temp:.{decimals}f} C")
         except Exception as e:
